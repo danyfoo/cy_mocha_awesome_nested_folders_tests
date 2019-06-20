@@ -1,0 +1,30 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cy:run:foo": "cypress run --project ./source/foo",
+    "cy:run:bar": "cypress run --project ./source/bar",
+    "cy:open:foo": "cypress open --project ./source/foo",
+    "cy:open:bar": "cypress open --project ./source/bar"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danyfu/cy_mocha_awesome_nested_folders_tests.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danyfu/cy_mocha_awesome_nested_folders_tests/issues"
+  },
+  "homepage": "https://github.com/danyfu/cy_mocha_awesome_nested_folders_tests#readme",
+  "dependencies": {
+    "cypress": "^3.3.1",
+    "fs-extra": "^8.0.1"
+  },
+  "devDependencies": {
+    "mocha": "^6.1.4",
+    "mochawesome": "^4.0.1"
+  }
+}
