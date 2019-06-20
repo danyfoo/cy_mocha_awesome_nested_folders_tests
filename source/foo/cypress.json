@@ -1,3 +1,6 @@
 {
-    "reporter": "mochawesome"
+    "reporter": "mochawesome",
+    "reporterOptions": {
+        "mochaFile": "cypress/results/results-[hash].xml"
+    }
 }
