@@ -23,3 +23,52 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+const addContext = require('mochawesome/addContext');
+let req = null;
+let res = null;
+
+Cypress.on('command:end', (command) => {
+    if (command.attributes.name === 'request') {
+        const args = command.attributes.args[0];
+        const subject = command.attributes.subject;
+
+        req = {
+            method: args.method,
+            url: args.url,
+            headers: command.attributes.subject.requestHeaders,
+        }
+
+        if (args.headers &&
+            args.headers['Content-Type'] &&
+            args.headers['Content-Type'] === 'application/json' &&
+            args.method !== 'GET' &&
+            args.body) {
+            req.body = JSON.parse(args.body)
+        }
+
+        res = {
+            headers: subject.headers,
+            status: subject.status,
+            statusText: subject.statusText
+        };
+
+        res.body = subject.body;
+    }
+});
+
+Cypress.on('test:after:run', (test) => {
+    if (req && res) {
+        addContext({ test }, {
+            title: `[REQUEST] ${req.method} ${req.url}`,
+            value: req
+        });
+
+        addContext({ test }, {
+            title: `[RESPONSE] ${res.status} ${res.statusText} - ${req.method} ${req.url}`,
+            value: {
+                headers: res.headers,
+                body: res.body
+            }
+        });
+    }
+});
